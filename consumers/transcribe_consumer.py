@@ -9,8 +9,8 @@ from utils.transcibe_utils import transcribe_gcs
 MAX_RETRIES = 3
 RETRY_DELAY = 5  # seconds
 
-DMS_URL = 'http://localhost:8089'
-# DMS_URL = 'https://dms.timewise.space'
+# DMS_URL = 'http://localhost:8089'
+DMS_URL = 'https://dms.timewise.space'
 
 
 def register_transcribe_consumer():
