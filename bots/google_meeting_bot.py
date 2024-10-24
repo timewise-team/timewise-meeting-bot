@@ -10,6 +10,7 @@ import time
 from selenium import webdriver
 from selenium.common import TimeoutException, NoSuchElementException
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
@@ -25,13 +26,18 @@ class GoogleMeetBot:
         opt = Options()
         opt.add_argument('--disable-blink-features=AutomationControlled')
         opt.add_argument('--start-maximized')
+        opt.add_argument("--headless")
+        opt.add_argument("--no-sandbox")
+        opt.add_argument("--disable-dev-shm-usage")
+
+        service = Service('/usr/bin/chromedriver')
         opt.add_experimental_option("prefs", {
             "profile.default_content_setting_values.media_stream_mic": 1,
             "profile.default_content_setting_values.media_stream_camera": 1,
             "profile.default_content_setting_values.geolocation": 0,
             "profile.default_content_setting_values.notifications": 1
         })
-        self.driver = webdriver.Chrome(options=opt)
+        self.driver = webdriver.Chrome(options=opt, service=service)
 
     def go_to_meeting(self, meet_link):
         # go to google login page
