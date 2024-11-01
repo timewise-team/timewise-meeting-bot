@@ -41,14 +41,17 @@ class GoogleMeetBot:
     def go_to_meeting(self, meet_link):
         # go to google login page
         self.driver.get(meet_link)
+        time.sleep(2)  # Give time for the page to load
 
         if self.driver.find_element(By.CSS_SELECTOR, 'div[jscontroller="VXdfxd"]').is_displayed():
             self.driver.find_element(By.CSS_SELECTOR, 'div[jscontroller="VXdfxd"]').click()
 
+        time.sleep(1)
         self.driver.find_element(By.ID, 'identifierId').send_keys(self.mail_address)
         self.driver.find_element(By.ID, "identifierNext").click()
         self.driver.implicitly_wait(10)
 
+        time.sleep(1)
         self.driver.find_element(By.XPATH, '//*[@id="password"]/div[1]/div/div[1]/input').send_keys(self.password)
         self.driver.implicitly_wait(10)
         self.driver.find_element(By.ID, "passwordNext").click()
@@ -58,6 +61,7 @@ class GoogleMeetBot:
 
     def turn_off_mic_cam(self):
         # turn off Microphone
+        time.sleep(1)
         self.driver.find_element(By.CLASS_NAME, 'ZB88ed').click()
         self.driver.implicitly_wait(3000)
         print("Turn off mic activity: Done")
