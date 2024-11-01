@@ -1,9 +1,3 @@
-# Use Python 3.12 as the base image
-FROM python:3.12-slim
-
-# Set environment variables
-ENV PYTHONUNBUFFERED=1
-
 # Install necessary system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
@@ -22,6 +16,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxrandr2 \
     libxi6 \
     rabbitmq-server \
+    unzip \
+    libportaudio2 \
+    libportaudiocpp0 \
+    portaudio19-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Chrome for Selenium (headless)
