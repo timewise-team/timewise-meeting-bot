@@ -24,7 +24,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxcomposite1 \
     libxrandr2 \
     libxi6 \
-    rabbitmq-server \
     unzip \
     libportaudio2 \
     libportaudiocpp0 \
@@ -49,9 +48,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY . /app
-
-# Expose necessary ports (e.g., RabbitMQ or the app)
-EXPOSE 5672 15672
 
 # Run RabbitMQ as a service, start Xvfb and the meeting bot
 #CMD ["sh", "-c", "Xvfb :99 -ac 2>/dev/null & python main.py"]
