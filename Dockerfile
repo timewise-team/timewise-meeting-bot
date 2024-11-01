@@ -54,6 +54,6 @@ COPY . /app
 EXPOSE 5672 15672
 
 # Run RabbitMQ as a service, start Xvfb and the meeting bot
-CMD service rabbitmq-server start && \
-    Xvfb :99 -screen 0 1920x1080x24 & \
-    python main.py
+#CMD Xvfb :99 -screen 0 1920x1080x24 & \
+#    python main.py
+CMD ["sh", "-c", "Xvfb :99 -ac 2>/dev/null & python main.py"]
