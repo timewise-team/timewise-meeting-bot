@@ -17,7 +17,7 @@ def register_transcribe_consumer():
     while True:
         try:
             connection = pika.BlockingConnection(
-                pika.ConnectionParameters('localhost', 5672, '/', pika.PlainCredentials('admin', 'admin')))
+                pika.ConnectionParameters('34.87.175.71', 5672, '/', pika.PlainCredentials('admin', 'admin')))
             channel = connection.channel()
             channel.queue_declare(queue='transcribe_queue')
             channel.basic_consume(queue='transcribe_queue', on_message_callback=process_message, auto_ack=False)
