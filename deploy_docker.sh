@@ -1,5 +1,7 @@
 #!/bin/bash
 
+git pull
+
 # Variables
 IMAGE_NAME="meeting-bot"
 CONTAINER_NAME="meeting-bot-container"
