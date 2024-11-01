@@ -3,8 +3,7 @@ FROM python:3.12-slim
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
-ENV CHROME_VERSION=130.0.6723.91
-ENV CHROMEDRIVER_VERSION=130.0.6723.91
+ENV DISPLAY=:99
 
 # Install necessary system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -31,13 +30,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     xvfb \
     && rm -rf /var/lib/apt/lists/*
 
-# Add Chrome repository and install the specified Chrome version
+# Install Chrome and ChromeDriver
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
-    apt-get update && apt-get install -y google-chrome-stable=$CHROME_VERSION-1
-
-# Download ChromeDriver that matches the Chrome version
-RUN wget -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.91/linux64/chrome-linux64.zip && \
+    apt-get update && apt-get install -y google-chrome-stable && \
+    CHROME_DRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
+    wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     rm /tmp/chromedriver.zip
 
@@ -51,9 +49,6 @@ COPY . /app
 
 # Expose necessary ports (e.g., RabbitMQ or the app)
 EXPOSE 5672 15672
-
-# Set display for headful Chrome with Xvfb
-ENV DISPLAY=:99
 
 # Run RabbitMQ as a service, start Xvfb and the meeting bot
 CMD service rabbitmq-server start && \
