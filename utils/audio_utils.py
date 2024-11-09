@@ -1,4 +1,5 @@
 import datetime
+import os
 import random
 import string
 import wave
@@ -21,3 +22,7 @@ def save_audio_to_wav(filename, audio_frames, samplerate):
         wf.setframerate(samplerate)
         wf.writeframes(audio_data.tobytes())
     print(f"Audio saved to {filename}")
+
+def delete_local_file(filename):
+    os.remove(filename)
+    print(f"Deleted local file: {filename}")
