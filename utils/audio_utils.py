@@ -6,6 +6,7 @@ import wave
 
 import numpy as np
 
+
 def generate_audio_path():
     current_date = datetime.datetime.now().strftime("%Y%m%d")
     random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=6))
@@ -23,6 +24,14 @@ def save_audio_to_wav(filename, audio_frames, samplerate):
         wf.writeframes(audio_data.tobytes())
     print(f"Audio saved to {filename}")
 
+
 def delete_local_file(filename):
-    os.remove(filename)
-    print(f"Deleted local file: {filename}")
+    # Get the absolute path of the file in the root folder of the project
+    project_root = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(project_root, filename)
+
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        print(f"Deleted local file: {file_path}")
+    else:
+        print(f"File not found: {file_path}")

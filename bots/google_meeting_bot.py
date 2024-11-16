@@ -76,7 +76,7 @@ class GoogleMeetBot:
 
         if self.check_if_joined():
             print("Meeting has been joined, start recording...")
-            AudioRecorder().start_audio_recording(audio_path, schedule_id)
+            AudioRecorder().start_audio_recording(self, audio_path, schedule_id)
             return
 
         print("Meeting has not been joined")
@@ -90,4 +90,14 @@ class GoogleMeetBot:
             return True
         except (TimeoutException, NoSuchElementException):
             print("Meeting has not been joined")
+            return False
+
+    def check_if_meeting_ended(self):
+        try:
+            _ = WebDriverWait(self.driver, 5).until(
+                ec.presence_of_element_located((By.CSS_SELECTOR, 'button[jsname="dqt8Pb"]'))
+            )
+            return True
+        except (TimeoutException, NoSuchElementException):
+            print("Meeting is still ongoing")
             return False

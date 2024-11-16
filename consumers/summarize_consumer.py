@@ -5,8 +5,9 @@ import time
 import pika
 import requests
 
+from config_constants import RabbitMQConfig
 from consumers.transcribe_consumer import DMS_URL, update_transcript_to_db
-from utils.summarize_utils import generate_summary
+from utils.summarize_utils import generate_summary__gemini
 
 MAX_RETRIES = 3
 RETRY_DELAY = 5  # seconds
@@ -17,7 +18,8 @@ def register_summarize_consumer():
         try:
             # Establish connection to RabbitMQ
             connection = pika.BlockingConnection(
-                pika.ConnectionParameters('34.87.175.71', 5672, '/', pika.PlainCredentials('admin', 'admin')))
+                pika.ConnectionParameters(RabbitMQConfig.HOST, RabbitMQConfig.PORT, '/',
+                                          pika.PlainCredentials(RabbitMQConfig.USERNAME, RabbitMQConfig.PASSWORD)))
             channel = connection.channel()
             channel.queue_declare(queue='summarize_queue')  # Queue name
             channel.basic_consume(queue='summarize_queue', on_message_callback=process_message, auto_ack=False)
@@ -74,7 +76,7 @@ def handle_summarize_queue(ch, method, properties, body):
         raise ValueError(f'No raw_transcript found for schedule_id: {message["schedule_id"]}')
 
     # Run the summarization function on the retrieved transcript
-    summarized_text = generate_summary(raw_transcript)
+    summarized_text = generate_summary__gemini(raw_transcript)
     if summarized_text is None:
         raise ValueError(f'Failed to generate summary for schedule_id: {message["schedule_id"]}')
 

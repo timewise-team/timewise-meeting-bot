@@ -4,6 +4,7 @@ import time
 
 import pika
 
+from config_constants import RabbitMQConfig
 from utils.transcibe_utils import transcribe_gcs
 
 MAX_RETRIES = 3
@@ -17,7 +18,8 @@ def register_transcribe_consumer():
     while True:
         try:
             connection = pika.BlockingConnection(
-                pika.ConnectionParameters('34.87.175.71', 5672, '/', pika.PlainCredentials('admin', 'admin')))
+                pika.ConnectionParameters(RabbitMQConfig.HOST, RabbitMQConfig.PORT, '/',
+                                          pika.PlainCredentials(RabbitMQConfig.USERNAME, RabbitMQConfig.PASSWORD)))
             channel = connection.channel()
             channel.queue_declare(queue='transcribe_queue')
             channel.basic_consume(queue='transcribe_queue', on_message_callback=process_message, auto_ack=False)
@@ -85,7 +87,8 @@ def update_transcript_to_db(schedule_id, generated_transcript):
 
 def send_to_summarize_queue(schedule_id):
     connection = pika.BlockingConnection(
-        pika.ConnectionParameters('34.87.175.71', 5672, '/', pika.PlainCredentials('admin', 'admin')))
+        pika.ConnectionParameters(RabbitMQConfig.HOST, RabbitMQConfig.PORT, '/',
+                                  pika.PlainCredentials(RabbitMQConfig.USERNAME, RabbitMQConfig.PASSWORD)))
     channel = connection.channel()
     channel.queue_declare(queue='summarize_queue')
     message = {

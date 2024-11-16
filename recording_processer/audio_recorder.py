@@ -5,14 +5,16 @@ import time
 import pika
 import sounddevice as sd
 
-from utils.audio_utils import save_audio_to_wav, delete_local_file
+from config_constants import RabbitMQConfig
+from utils.audio_utils import save_audio_to_wav
 from utils.storage_utils import upload_blob
 
 
 def publish_msg_to_transcribe(filename, schedule_id):
     # Establish connection to RabbitMQ
     connection = pika.BlockingConnection(
-        pika.ConnectionParameters('34.87.175.71', 5672, '/', pika.PlainCredentials('admin', 'admin')))
+        pika.ConnectionParameters(RabbitMQConfig.HOST, RabbitMQConfig.PORT, '/',
+                                  pika.PlainCredentials(RabbitMQConfig.USERNAME, RabbitMQConfig.PASSWORD)))
     channel = connection.channel()
 
     # Declare the queue
@@ -32,7 +34,7 @@ class AudioRecorder:
         self.sample_rate = sample_rate
 
     @staticmethod
-    def start_audio_recording(filename, schedule_id):
+    def start_audio_recording(meeting_bot, filename, schedule_id):
         def callback(indata, frames, time, status):
             if status:
                 print(status)
@@ -40,9 +42,9 @@ class AudioRecorder:
 
         def stop_recording_when_meeting_ends():
             print("Monitoring meeting end...")
-            # while not self.check_if_meeting_ended():
-            #     time.sleep(2)
-            time.sleep(30)  # 30s for testing
+            time.sleep(10)  # 30s for testing
+            while not meeting_bot.check_if_meeting_ended():
+                time.sleep(2)
             print("Stopping recording...")
             stop_event.set()
 
@@ -63,6 +65,6 @@ class AudioRecorder:
 
         save_audio_to_wav(filename, audio_frames, samplerate)
         upload_blob('tw-transcripts', filename, filename)
-        delete_local_file(filename)
+        # delete_local_file(filename)
 
         publish_msg_to_transcribe(filename, schedule_id)

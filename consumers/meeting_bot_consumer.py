@@ -5,6 +5,7 @@ import time
 import pika
 
 from bots.meeting_bot_factory import start_meeting_bot
+from config_constants import RabbitMQConfig
 
 MAX_RETRIES = 3
 RETRY_DELAY = 5  # seconds
@@ -14,7 +15,8 @@ def register_meeting_bot_consumer():
     while True:
         try:
             connection = pika.BlockingConnection(
-                pika.ConnectionParameters('34.87.175.71', 5672, '/', pika.PlainCredentials('admin', 'admin')))
+                pika.ConnectionParameters(RabbitMQConfig.HOST, RabbitMQConfig.PORT, '/',
+                                          pika.PlainCredentials(RabbitMQConfig.USERNAME, RabbitMQConfig.PASSWORD)))
             channel = connection.channel()
             channel.queue_declare(queue='start_meeting_queue')
             channel.basic_consume(queue='start_meeting_queue', on_message_callback=process_message, auto_ack=False)

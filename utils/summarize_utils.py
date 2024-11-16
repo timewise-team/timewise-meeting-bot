@@ -1,8 +1,10 @@
+import google.generativeai as genai
 from transformers import pipeline
 
 # Initialize the summarization and text correction pipelines
 summarizer = pipeline("summarization", model="VietAI/vit5-large-vietnews-summarization", device="mps")
 corrector = pipeline("text2text-generation", model="bmd1905/vietnamese-correction-v2", device="mps")
+
 
 def generate_summary(raw_transcript):
     """
@@ -43,3 +45,39 @@ def generate_summary(raw_transcript):
     # print("Summary and key highlights saved to 'meeting_summary.txt'")
 
     return normalized_summary_text
+
+
+GEMINI_API_KEY = 'AIzaSyDho0bRbLOqDEqkBHOliuGWKdfSHOaeTWc'
+
+genai.configure(api_key=GEMINI_API_KEY)
+
+
+def generate_summary__gemini(raw_transcript):
+    # Normalize the text using the correction model
+    normalized_text = corrector(raw_transcript, max_length=len(raw_transcript))[0]['generated_text']
+    print("Normalized Text:", normalized_text)
+
+    # Create the model
+    generation_config = {
+        "temperature": 1,
+        "top_p": 0.95,
+        "top_k": 64,
+        "max_output_tokens": 8192,
+        "response_mime_type": "text/plain",
+    }
+
+    model = genai.GenerativeModel(
+        model_name="gemini-1.5-flash",
+        generation_config=generation_config,
+    )
+
+    chat_session = model.start_chat()
+
+    response = chat_session.send_message(
+        f"no yapping. tóm tắt nội dung cuộc họp bên dưới, độ dài tối đa không quá 50% số chữ của nội dung gốc. "
+        f"chỉ trả về một đoạn text tóm tắt có thể lưu vào database luôn, không trả thêm gì khác, không trả câu hỏi thêm, "
+        f"không trả lời mở đầu, chỉ trả về kết quả tóm tắt: {normalized_text}")
+
+    print(response.text)
+
+    return response.text

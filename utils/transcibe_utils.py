@@ -18,7 +18,7 @@ def transcribe_gcs(gcs_uri: str) -> str:
     operation = client.long_running_recognize(config=config, audio=audio)
 
     print("[info] Waiting for operation to complete...")
-    response = operation.result(timeout=90)
+    response = operation.result(timeout=None)
     print(f'[info] Speech2Text Response: {response}')
 
     raw_transcript = ""
@@ -26,8 +26,7 @@ def transcribe_gcs(gcs_uri: str) -> str:
     # them to get the transcripts for the entire audio file.
     for result in response.results:
         # The first alternative is the most likely one for this portion.
-        raw_transcript = result.alternatives[0].transcript
-
+        raw_transcript += result.alternatives[0].transcript
 
     print(f"[info] Raw Transcript: {raw_transcript}")
     return raw_transcript
