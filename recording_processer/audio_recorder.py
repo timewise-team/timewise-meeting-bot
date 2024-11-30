@@ -63,7 +63,7 @@ class AudioRecorder:
                 time.sleep(1)
 
         save_audio_to_wav(filename, audio_frames, samplerate)
-        upload_blob('tw-transcripts', filename, filename)
+        upload_blob('tw_transcripts', filename, filename)
         # delete_local_file(filename)
 
         publish_msg_to_transcribe(filename, schedule_id)

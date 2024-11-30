@@ -2,7 +2,7 @@ from google.cloud import storage
 from google.oauth2 import service_account
 
 credentials = service_account.Credentials.from_service_account_file(
-    './timewise-6969-372d2275d0bd.json')
+    './timewise-441405-e06d3844723e.json')
 
 
 def upload_blob(bucket_name, source_file_name, destination_blob_name):

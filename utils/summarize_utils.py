@@ -47,7 +47,7 @@ def generate_summary(raw_transcript):
     return normalized_summary_text
 
 
-GEMINI_API_KEY = 'AIzaSyDho0bRbLOqDEqkBHOliuGWKdfSHOaeTWc'
+GEMINI_API_KEY = 'AIzaSyA0M39VosZ1OWtQ62ggMqRh-m3cC08fyyA'
 
 genai.configure(api_key=GEMINI_API_KEY)
 

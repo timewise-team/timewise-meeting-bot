@@ -106,7 +106,7 @@ def handle_transcribe_queue(ch, method, properties, body):
     if 'filename' not in message or 'schedule_id' not in message:
         raise ValueError('filename or schedule_id are required')
 
-    file_name = f"gs://tw-transcripts/{message['filename']}"
+    file_name = f"gs://tw_transcripts/{message['filename']}"
 
     generated_transcript = transcribe_gcs(file_name)
     if not generated_transcript:
