@@ -41,17 +41,16 @@ class AudioRecorder:
             audio_frames.append(indata.copy())
 
         def stop_recording_when_meeting_ends():
-            print("Monitoring meeting end...")
-            time.sleep(10)  # 30s for testing
             while not meeting_bot.check_if_meeting_ended():
                 time.sleep(2)
             print("Stopping recording...")
-            stop_event.set()
+            return True
+            # stop_event.set()
 
-        # Create a threading event to signal stopping the recording
-        stop_event = threading.Event()
-        monitoring_thread = threading.Thread(target=stop_recording_when_meeting_ends)
-        monitoring_thread.start()
+        # # Create a threading event to signal stopping the recording
+        # stop_event = threading.Event()
+        # monitoring_thread = threading.Thread(target=stop_recording_when_meeting_ends)
+        # monitoring_thread.start()
 
         audio_frames = []
         samplerate = 44100
@@ -60,7 +59,7 @@ class AudioRecorder:
         # Open audio stream
         with sd.InputStream(samplerate=samplerate, channels=channels, callback=callback, device=0):
             print("Recording started...")
-            while not stop_event.is_set():
+            while not stop_recording_when_meeting_ends():
                 time.sleep(1)
 
         save_audio_to_wav(filename, audio_frames, samplerate)

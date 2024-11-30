@@ -37,7 +37,7 @@ def start_meeting_bot(msg):
     # Duration for bot to record audio
     meeting_bot = MeetBotFactory.create_meet_bot(msg['meet_link'])
     meeting_bot.go_to_meeting(msg['meet_link'])
-    meeting_bot.turn_off_mic_cam()
+    # meeting_bot.turn_off_mic_cam()
     meeting_bot.join_meeting(audio_path, msg['schedule_id'])
 
     # SpeechToText().transcribe(audio_path)

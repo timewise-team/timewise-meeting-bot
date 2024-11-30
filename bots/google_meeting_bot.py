@@ -55,17 +55,18 @@ class GoogleMeetBot:
         self.driver.implicitly_wait(10)
         self.driver.find_element(By.ID, "passwordNext").click()
         self.driver.implicitly_wait(10)
+        time.sleep(10)
 
         print("Gmail login activity: Done")
 
     def turn_off_mic_cam(self):
         # turn off Microphone
-        self.driver.find_element(By.CLASS_NAME, 'ZB88ed').click()
+        self.driver.find_element(By.CSS_SELECTOR, 'button[aria-label="Turn off microphone"]').click()
         self.driver.implicitly_wait(3000)
         print("Turn off mic activity: Done")
 
         # turn off camera
-        self.driver.find_element(By.CLASS_NAME, 'GOH7Zb').click()
+        self.driver.find_element(By.CSS_SELECTOR, 'button[aria-label="Turn off camera"]').click()
         self.driver.implicitly_wait(3000)
         print("Turn off cam activity: Done")
 
