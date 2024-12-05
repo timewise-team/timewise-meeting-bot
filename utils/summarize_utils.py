@@ -74,7 +74,9 @@ def generate_summary__gemini(raw_transcript):
     chat_session = model.start_chat()
 
     response = chat_session.send_message(
-        f"no yapping. tóm tắt nội dung cuộc họp bên dưới, độ dài tối đa không quá 50% số chữ của nội dung gốc. "
+        f"no yapping, "
+        f"đây là cuộc họp giữa nhiều người, "
+        f"tóm tắt nội dung cuộc họp bên dưới, chi tiết nhất có thể, nêu rõ các điểm chính được đề cập trong cuộc họp, "
         f"chỉ trả về một đoạn text tóm tắt có thể lưu vào database luôn, không trả thêm gì khác, không trả câu hỏi thêm, "
         f"không trả lời mở đầu, chỉ trả về kết quả tóm tắt: {normalized_text}")
 
