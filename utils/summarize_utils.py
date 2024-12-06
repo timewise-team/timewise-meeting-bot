@@ -1,5 +1,4 @@
 import google.generativeai as genai
-from transformers import pipeline
 
 # Initialize the summarization and text correction pipelines
 # summarizer = pipeline("summarization", model="VietAI/vit5-large-vietnews-summarization", device="mps")

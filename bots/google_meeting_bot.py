@@ -60,7 +60,7 @@ class GoogleMeetBot:
         print("Gmail login activity: Done")
 
     def turn_off_mic_cam(self):
-        time.sleep(1)
+        time.sleep(20)
         # turn off Microphone
         self.driver.find_element(By.CSS_SELECTOR, 'div[jsname="Dg9Wp"]').click()
         self.driver.implicitly_wait(3000)
