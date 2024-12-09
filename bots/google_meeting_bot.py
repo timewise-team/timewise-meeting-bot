@@ -24,6 +24,7 @@ class GoogleMeetBot:
         self.password = 'Hngnhatkhanh0708'
         # create chrome instance
         opt = Options()
+        opt.add_argument("/home/khanhhn.hoang/.config/google-chrome/Default")
         opt.add_argument('--disable-blink-features=AutomationControlled')
         opt.add_argument('--start-maximized')
         # opt.add_argument('--no-sandbox')
@@ -43,6 +44,7 @@ class GoogleMeetBot:
     def go_to_meeting(self, meet_link):
         # go to google login page
         self.driver.get(meet_link)
+        time.sleep(10)
 
         # if self.driver.find_element(By.CSS_SELECTOR, 'div[jscontroller="VXdfxd"]').is_displayed():
         #     self.driver.find_element(By.CSS_SELECTOR, 'div[jscontroller="VXdfxd"]').click()
@@ -55,12 +57,12 @@ class GoogleMeetBot:
         self.driver.implicitly_wait(10)
         self.driver.find_element(By.ID, "passwordNext").click()
         self.driver.implicitly_wait(10)
-        time.sleep(10)
+        time.sleep(5)
 
         print("Gmail login activity: Done")
 
     def turn_off_mic_cam(self):
-        time.sleep(20)
+        # time.sleep(20)
         # turn off Microphone
         self.driver.find_element(By.CSS_SELECTOR, 'div[jsname="Dg9Wp"]').click()
         self.driver.implicitly_wait(3000)
