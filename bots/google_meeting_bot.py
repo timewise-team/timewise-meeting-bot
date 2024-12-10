@@ -46,8 +46,8 @@ class GoogleMeetBot:
         self.driver.get(meet_link)
         time.sleep(10)
 
-        # if self.driver.find_element(By.CSS_SELECTOR, 'div[jscontroller="VXdfxd"]').is_displayed():
-        #     self.driver.find_element(By.CSS_SELECTOR, 'div[jscontroller="VXdfxd"]').click()
+        if self.driver.find_element(By.CSS_SELECTOR, 'div[jscontroller="VXdfxd"]').is_displayed():
+            self.driver.find_element(By.CSS_SELECTOR, 'div[jscontroller="VXdfxd"]').click()
 
         self.driver.find_element(By.ID, 'identifierId').send_keys(self.mail_address)
         self.driver.find_element(By.ID, "identifierNext").click()

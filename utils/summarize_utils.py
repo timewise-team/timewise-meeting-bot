@@ -80,8 +80,10 @@ def generate_summary__gemini(raw_transcript):
         f"Đoạn văn bản có thể chứa các từ không chính xác hoặc nhiễu do âm thanh môi trường hoặc nhiều người cùng nói một lúc. "
         f"Hãy tóm tắt nội dung chính, đảm bảo: Loại bỏ các từ ngữ nhiễu hoặc không liên quan. "
         f"Giữ lại các ý chính, thông tin quan trọng và kết luận (nếu có). "
-        f"Đảm bảo tóm tắt bằng ngôn ngữ giống với ngôn ngữ đầu vào của đoạn văn bản dưới (tiếng Anh hoặc tiếng Việt). "
-        f"Đoạn hội thoại: {raw_transcript}"
+        f"Quan trọng: Đảm bảo tóm tắt bằng ngôn ngữ giống với ngôn ngữ của đoạn văn bản đầu vào dưới đây (tiếng Anh hoặc tiếng Việt). "
+        f"Nếu đoạn hội thoại dưới đây là tiếng Việt, hãy trả kết quả tóm tắt bằng tiếng Việt. "
+        f"Nếu đoạn hội thoại dưới đây là tiếng Anh, hãy trả kết quả tóm tắt bằng tiếng Anh. "
+        f"Đoạn hội thoại: {raw_transcript} "
         f"Yêu cầu đầu ra: Chỉ trả về đoạn text tóm tắt nội dung, không có lời dẫn dắt hay chú thích thêm. "
     )
     print(response.text)
