@@ -44,7 +44,7 @@ class GoogleMeetBot:
     def go_to_meeting(self, meet_link):
         # go to google login page
         self.driver.get(meet_link)
-        time.sleep(10)
+        time.sleep(3)
 
         if self.driver.find_element(By.CSS_SELECTOR, 'div[jscontroller="VXdfxd"]').is_displayed():
             self.driver.find_element(By.CSS_SELECTOR, 'div[jscontroller="VXdfxd"]').click()
